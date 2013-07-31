@@ -1,0 +1,11 @@
+<?php
+
+$title = 'Shows a configurable value';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>
+    Configurable value: 
+    '<?php echo $this->escapeHtml($config_value); ?>'
+</p>

@@ -6,6 +6,9 @@ use Zend\View\Model\ViewModel;
 use Album\Model\Album;
 use Album\Form\AlbumForm;
 
+use Zend\Http\Client;
+use Zend\Http\Request;
+
 class AlbumController extends AbstractActionController
 {
     protected $albumTable;
@@ -105,6 +108,29 @@ class AlbumController extends AbstractActionController
         return array(
             'id'    => $id,
             'album' => $this->getAlbumTable()->getAlbum($id)
+        );
+    }
+
+    public function configAction()
+    {
+        # Shows retrieving a config value from local.php
+        $config = $this->getServiceLocator()->get('config');
+        return array(
+            'config_value'    => $config['test_config_value'],
+        );
+    }
+
+    public function httpClientAction()
+    {
+        # Shows making a HTTP request and seeing response
+        $request = new Request();
+        $request->setUri('http://example.org');
+        $client = new Client();
+        #$client->setRequest($request);
+        $response = $client->dispatch($request);
+
+        return array(
+            'response' => $response,
         );
     }
 

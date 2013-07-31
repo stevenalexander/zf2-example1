@@ -1,0 +1,11 @@
+<?php
+
+$title = 'Shows the response from an http request';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>
+    Response: 
+    '<?php echo $this->escapeHtml($response); ?>'
+</p>
