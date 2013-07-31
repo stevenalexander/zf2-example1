@@ -42,18 +42,35 @@ class AlbumRestController extends AbstractRestfulController
         // should throw error if form is invalid for validation error, 400 with errors in Reason-Phase
      
         return new JsonModel(array(
-            'data' => $this->get($id),
+            'data' => $this->getAlbumTable()->getAlbum($id),
         ));
     }
  
     public function update($id, $data)
     {
-        # code...
+        $data['id'] = $id;
+        $album = $this->getAlbumTable()->getAlbum($id);
+        $form  = new AlbumForm();
+        $form->bind($album);
+        $form->setInputFilter($album->getInputFilter());
+        $form->setData($data);
+        if ($form->isValid()) {
+            $id = $this->getAlbumTable()->saveAlbum($form->getData());
+        }
+     
+        return new JsonModel(array(
+            'data' => $this->getAlbumTable()->getAlbum($id),
+            #'data' => $form->getMessages(),
+        ));
     }
  
     public function delete($id)
     {
-        # code...
+        $this->getAlbumTable()->deleteAlbum($id);
+ 
+        return new JsonModel(array(
+            'data' => 'deleted',
+        ));
     }
 
     public function getAlbumTable()
